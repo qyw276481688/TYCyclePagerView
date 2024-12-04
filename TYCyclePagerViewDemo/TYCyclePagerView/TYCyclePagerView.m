@@ -141,8 +141,11 @@ NS_INLINE TYIndexSection TYMakeIndexSection(NSInteger index, NSInteger section) 
     if (!self.superview || !self.window || _numberOfItems == 0 || self.tracking) {
         return;
     }
-    
-    [self scrollToNearlyIndexAtDirection:TYPagerScrollDirectionRight animate:YES];
+    BOOL isRTL = NO;
+    if (@available(iOS 9.0, *)) {
+        isRTL = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft;
+    }
+    [self scrollToNearlyIndexAtDirection:isRTL ? TYPagerScrollDirectionLeft : TYPagerScrollDirectionRight animate:YES];
 }
 
 #pragma mark - getter
